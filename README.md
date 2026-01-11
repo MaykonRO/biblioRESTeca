@@ -5,6 +5,9 @@
 * Primeiramente iria adicionar mais status nos livros, porém ao analisar bem, os status que eu desejava adicionar (READED e TO-READ), mas após analizar bem, percebi que ficaria redundante com o status AVAILABLE, pois esses status seriam sub-status de AVAILABLE;
 * As validações no DTO vou deixar mais para o final, elas não vão dar uma função nova, apenas melhorar a qualidade de vida e não é a parte principal do projeto
 
+## Minhas dúvidas atuais:
+
+
 ## Ideias para adicionar no projeto se der tempo
 
 - [ ] captura do horário de adição ou atualização do livro diretamente do horário do computador
