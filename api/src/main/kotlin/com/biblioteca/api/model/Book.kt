@@ -10,13 +10,13 @@ import java.time.LocalDateTime
 
 @Entity
 class Book(
-    val tittle: String = "",
+    val title: String = "",
     val author: String = "",
-    val isbn: Long? = null,
+    val isbn: String? = null,
     @Enumerated(EnumType.STRING)
-    val category: Category = Category.OTHER,
+    val category: Category? = null,
     @Enumerated(EnumType.STRING)
-    val status: BookStatus = BookStatus.AVAILABLE,
+    val status: BookStatus? = null,
     val registeredAt: LocalDateTime = LocalDateTime.now(),
     val updateAt: LocalDateTime? = null
 ) {
