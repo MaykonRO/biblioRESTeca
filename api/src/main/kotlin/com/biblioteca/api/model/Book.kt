@@ -18,7 +18,7 @@ class Book(
     @Enumerated(EnumType.STRING)
     val status: BookStatus? = null,
     val registeredAt: LocalDateTime = LocalDateTime.now(),
-    val updateAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

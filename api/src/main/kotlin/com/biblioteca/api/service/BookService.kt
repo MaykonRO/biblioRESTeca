@@ -8,29 +8,41 @@ import java.time.LocalDateTime
 
 // imposts dos meus arquivos criados
 import com.biblioteca.api.dto.CreateBookRequest
+import com.biblioteca.api.dto.CreateBookResponse
 
 import com.biblioteca.api.repository.BookRepository
 
 import com.biblioteca.api.model.Book
 import com.biblioteca.api.model.BookStatus
-import com.biblioteca.api.model.Category
 
 @Service
 class BookService(private val repository: BookRepository) {
-    fun create(request: CreateBookRequest): Book {
+
+    fun create(request: CreateBookRequest): CreateBookResponse {
         val book = Book(
             title = request.title,
             author = request.author,
             isbn = request.isbn,
-            category = request.category ?: Category.OTHER,
+            category = request.category,
             status = request.status ?: BookStatus.AVAILABLE,
             registeredAt = LocalDateTime.now(),
-            updateAt = null
+            updatedAt = null
         )
 
-        return repository.save(book)
+        val savedBook = repository.save(book)
+
+        return CreateBookResponse(
+            id = savedBook.id!!,
+            title = savedBook.title,
+            author = savedBook.author,
+            isbn = savedBook.isbn,
+            category = savedBook.category,
+            status = savedBook.status,
+            registeredAt = savedBook.registeredAt
+        )
     }
-    fun findAll(): List<Book>{
+
+    fun findAll(): List<Book> {
         return repository.findAll()
     }
 }
