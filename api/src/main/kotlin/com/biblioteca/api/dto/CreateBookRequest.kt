@@ -9,5 +9,4 @@ data class CreateBookRequest(
     val author: String,
     val isbn: String?,
     val category: Category,
-    val status: BookStatus?
 )

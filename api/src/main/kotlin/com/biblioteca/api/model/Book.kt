@@ -16,9 +16,9 @@ class Book(
     @Enumerated(EnumType.STRING)
     val category: Category? = null,
     @Enumerated(EnumType.STRING)
-    val status: BookStatus? = null,
+    var status: BookStatus? = null,
     val registeredAt: LocalDateTime = LocalDateTime.now(),
-    val updatedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime? = null
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
