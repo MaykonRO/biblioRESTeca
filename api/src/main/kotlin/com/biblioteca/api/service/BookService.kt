@@ -33,8 +33,28 @@ class BookService(private val repository: BookRepository) {
 
         val savedBook = repository.save(book)
 
-        if (savedBook.updatedAt == null){
+        if (savedBook.title.length < 3){
+            println("deveria ser mais")
+        }
+        else{
+            println("passou no titulo")
+        }
 
+        if (savedBook.author.length < 3){
+            println("deveria ser mais")
+        }
+
+        if (savedBook.isbn != null){
+            if (savedBook.isbn!!.length == 13){
+                println("passou no tamanho isbn")
+            }
+            else {
+                println("nao passou no tamanho isbn")
+            }
+            println("isbn nao nulo")
+        }
+        else{
+            println("isbn nulo")
         }
 
         return CreateBookResponse(
