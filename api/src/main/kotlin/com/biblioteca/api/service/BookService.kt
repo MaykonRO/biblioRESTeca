@@ -15,47 +15,34 @@ import com.biblioteca.api.repository.BookRepository
 
 import com.biblioteca.api.model.Book
 import com.biblioteca.api.model.BookStatus
+import com.biblioteca.api.model.Category
 
 
 @Service
 class BookService(private val repository: BookRepository) {
 
     fun create(request: CreateBookRequest): CreateBookResponse {
+
+        val validarCategory = when (request.category.uppercase()) {
+            "TECHNOLOGY" -> Category.TECHNOLOGY
+            "FICTION" -> Category.FICTION
+            "SCIENCE" -> Category.SCIENCE
+            "BUSINESS" -> Category.BUSINESS
+            "OTHER" -> Category.OTHER
+            else -> Category.OTHER
+        }
+
         val book = Book(
             title = request.title,
             author = request.author,
             isbn = request.isbn,
-            category = request.category,
+            category = validarCategory,
             status = BookStatus.AVAILABLE,
             registeredAt = LocalDateTime.now(),
             updatedAt = null
         )
 
         val savedBook = repository.save(book)
-
-        if (savedBook.title.length < 3){
-            println("deveria ser mais")
-        }
-        else{
-            println("passou no titulo")
-        }
-
-        if (savedBook.author.length < 3){
-            println("deveria ser mais")
-        }
-
-        if (savedBook.isbn != null){
-            if (savedBook.isbn!!.length == 13){
-                println("passou no tamanho isbn")
-            }
-            else {
-                println("nao passou no tamanho isbn")
-            }
-            println("isbn nao nulo")
-        }
-        else{
-            println("isbn nulo")
-        }
 
         return CreateBookResponse(
             id = savedBook.id!!,
@@ -73,11 +60,23 @@ class BookService(private val repository: BookRepository) {
         return repository.findAll()
     }
 
-    fun updateStatus(id: Long, request: UpdateBookRequest): CreateBookResponse{
-        val bookUpdate = repository.findById(id).orElseThrow{
-            NoSuchElementException("livro com id $id não encontrado")
+    fun updateStatus(id: Long, request: UpdateBookRequest): CreateBookResponse? {
+        val bookOptional = repository.findById(id)
+        if (bookOptional.isEmpty) {
+            return null
+
         }
-        bookUpdate.status = request.status
+
+        val bookUpdate = bookOptional.get()
+
+        val validarStatus = request.status
+
+        bookUpdate.status = when (validarStatus.uppercase()) {
+            "AVAILABLE" -> BookStatus.AVAILABLE
+            "BORROWED" -> BookStatus.BORROWED
+            "READING" -> BookStatus.READING
+            else -> BookStatus.AVAILABLE
+        }
         bookUpdate.updatedAt = LocalDateTime.now()
 
         val savedBook = repository.save(bookUpdate)
@@ -88,9 +87,9 @@ class BookService(private val repository: BookRepository) {
             author = savedBook.author,
             isbn = savedBook.isbn,
             category = savedBook.category,
-            status = bookUpdate.status,
+            status = savedBook.status,
             registeredAt = savedBook.registeredAt,
-            updateAt = bookUpdate.updatedAt
+            updateAt = savedBook.updatedAt
         )
     }
 }
