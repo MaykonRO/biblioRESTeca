@@ -1,4 +1,6 @@
 # biblioRESTeca
+Projeto de teste Back-End, onde o desafio proposto era de fazer uma aplicação no modelo Rest  de uma biblioteca pessoal 
+de controle de livros, usando Kotlin como linguagem de programação e o framework Spring Boot.
 
 ## Instruções para rodar o projeto
 
@@ -108,8 +110,59 @@ Corpo da requisição ausente ou malformado
 
 #### Exemplo:
 ```
-
+{
+  "title": "",
+  "author": "A",
+  "isbn": "123"
+}
 ```
+Resposta:
+```
+{
+  "status": 404,
+"error": Bad Request,
+  "message": "Erro de validação nos campos enviados"
+}
+```
+### ❌ 404 — Not Found
+
+Retornado quando o recurso solicitado não existe.
+
+Situações comuns:
+
+Livro não encontrado pelo id
+
+Tentativa de atualizar um livro inexistente
+
+### Exemplo:
+```
+  PATCH /api/books/999/status
+```
+Resposta:
+```
+{
+  "status": 404,
+  "error": "Not Found",
+  "message": "Livro com id 999 não encontrado"
+}
+```
+### ❌ 500 — Internal Server Error
+Retornado quando ocorre um erro inesperado no servidor.
+
+Possíveis causas:
+Exceções não tratadas
+
+Erros de conversão de tipos
+
+Falhas internas do Spring ou JPA
+
+Resposta:
+{
+  "status": 500,
+  "error": "Internal Server Error",
+  "message": "Erro interno no servidor"
+}
+
 
 ## Decisões e Observações
 
